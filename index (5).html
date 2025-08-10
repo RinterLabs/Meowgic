@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meowgic Studio - Interactive Report</title>
+    
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: Magical Purple -->
+    <!-- Application Structure Plan: A thematic, single-page application designed for progressive discovery. The structure starts with a high-level concept, then drills down into NFT details, utilities, a visual data comparison of benefits (mining chart), and an interactive roadmap. This non-linear, interactive approach was chosen over a simple text document to make the white paper's dense information more engaging and easier to understand for potential investors, allowing them to explore sections of interest dynamically. -->
+    <!-- Visualization & Content Choices: Key quantitative data (mining multipliers) is presented as a Chart.js Bar Chart to visually compare the economic benefits, which is more impactful than text. The roadmap is an interactive timeline (HTML/CSS/JS) to keep the UI clean and user-controlled. NFT benefits are in clickable cards to manage information density. This approach uses interaction to simplify complex information, all without SVG or Mermaid JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@400;500;700&display=swap');
+        :root {
+            --bg-dark: #10002B;
+            --bg-light: #240046;
+            --text-color: #FFFFFF;
+            --accent-color: #9D4EDD;
+            --accent-light: #E0AAFF;
+            --card-bg: rgba(36, 0, 70, 0.6);
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-display {
+            font-family: 'Permanent Marker', cursive;
+        }
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(157, 78, 221, 0.2);
+        }
+        
+        /* Twinkling Stars Animation */
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-dark) 100%);
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+    </style>
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="antialiased">
+
+    <div id="stars-container"></div>
+
+    <div class="relative container mx-auto px-6 py-12 md:py-20">
+
+        <!-- Section 1: Header -->
+        <header class="text-center mb-16 md:mb-24">
+            <h1 class="font-display text-5xl md:text-7xl text-white mb-4 tracking-wide">Meowgic Studio</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-white/80">An interactive summary of the official white paper, exploring the project's vision, NFT collections, and ecosystem utilities on ApeChain.</p>
+        </header>
+
+        <!-- Section 2: NFT Collections -->
+        <section id="collections" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-4xl text-white mb-3">NFT Collections</h2>
+                <p class="max-w-2xl mx-auto text-white/70">The ecosystem features two interconnected NFT collections, each with a distinct role and set of benefits.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div id="pass-card" class="glass-card p-8 rounded-2xl transition-all duration-300 hover:border-[var(--accent-light)]/50 hover:-translate-y-1">
+                    <h3 class="font-display text-3xl mb-4 text-[var(--accent-light)]">🎟️ Meowgic Pass</h3>
+                    <p class="text-white/60 mb-1">Supply: <span class="font-bold text-white">3333</span></p>
+                    <p class="text-white/60 mb-4">Role: <span class="font-bold text-white">Main Access & Membership</span></p>
+                    <ul class="space-y-2 text-white/90">
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>Exclusive right to mint a Magic Meow NFT.</li>
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>Access to private Discord channels & project alpha.</li>
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>Guaranteed access to the game's beta version.</li>
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>A 2x boost on $MEOGC token mining rewards.</li>
+                    </ul>
+                </div>
+                <div id="meow-card" class="glass-card p-8 rounded-2xl transition-all duration-300 hover:border-[var(--accent-light)]/50 hover:-translate-y-1">
+                    <h3 class="font-display text-3xl mb-4 text-[var(--accent-light)]">🐱 Magic Meow</h3>
+                    <p class="text-white/60 mb-1">Supply: <span class="font-bold text-white">1111</span></p>
+                    <p class="text-white/60 mb-4">Role: <span class="font-bold text-white">Core Utility & In-Game Asset</span></p>
+                    <ul class="space-y-2 text-white/90">
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>Functions as a powerful in-game asset (skins, HP boosts).</li>
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>The highest mining boost at a 5x rate.</li>
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>Includes all benefits from the Meowgic Pass.</li>
+                        <li><span class="text-[var(--accent-color)] font-bold mr-2">●</span>The project's flagship PFP and your digital identity.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Tokenomics -->
+        <section id="tokenomics" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-4xl text-white mb-3">Tokenomics</h2>
+                <p class="max-w-2xl mx-auto text-white/70">The native token, <span class="font-bold text-white">$MEOGC</span>, with a total supply of 300 Million will serve as the backbone of the Meowgic Studio economy.</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container relative w-full max-w-sm mx-auto h-64 md:h-80">
+                        <canvas id="tokenomicsChart"></canvas>
+                    </div>
+                    <div>
+                        <ul class="space-y-4">
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#E0AAFF] mr-3"></div>Ecosystem Rewards</span>
+                                    <span class="font-bold">60%</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#C77DFF] mr-3"></div>Public Sale</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#9D4EDD] mr-3"></div>Liquidity</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                            </li>
+                             <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#7B2CBF] mr-3"></div>Team</span>
+                                    <span class="font-bold">10%</span>
+                                </div>
+                                <p class="text-xs text-white/60 pl-6">Locked 12 months, linear vesting over 12 months.</p>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#5A189A] mr-3"></div>Meowgic Pass Holders</span>
+                                    <span class="font-bold">5%</span>
+                                </div>
+                            </li>
+                             <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex items-center"><div class="w-3 h-3 rounded-full bg-[#3C096C] mr-3"></div>Magic Meow Holders</span>
+                                    <span class="font-bold">5%</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Roadmap -->
+        <section id="roadmap" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-4xl text-white mb-3">Project Roadmap</h2>
+                <p class="max-w-2xl mx-auto text-white/70">Our development is structured into four strategic phases, focusing on building value before market exposure.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Phase 1 -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="font-display text-xl mb-3 text-[var(--accent-light)]">Phase 1: Foundation</h3>
+                    <ul class="space-y-2 text-sm text-white/90">
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Meowgic Pass Launch</li>
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Discord & Community Launch</li>
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Game Beta Launch</li>
+                    </ul>
+                </div>
+                <!-- Phase 2 -->
+                 <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="font-display text-xl mb-3 text-[var(--accent-light)]">Phase 2: Ecosystem</h3>
+                    <ul class="space-y-2 text-sm text-white/90">
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Magic Meow Launch</li>
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Token Airdrop</li>
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Mining System Launch</li>
+                    </ul>
+                </div>
+                <!-- Phase 3 -->
+                 <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="font-display text-xl mb-3 text-[var(--accent-light)]">Phase 3: Public Launch</h3>
+                    <ul class="space-y-2 text-sm text-white/90">
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Full Game Launch</li>
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Metaverse Integration</li>
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>Collaborations</li>
+                    </ul>
+                </div>
+                <!-- Phase 4 -->
+                 <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="font-display text-xl mb-3 text-[var(--accent-light)]">Phase 4: Market</h3>
+                    <ul class="space-y-2 text-sm text-white/90">
+                        <li><i class="fas fa-check-circle text-[var(--accent-color)] mr-2"></i>TGE & Listing</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Game Download -->
+        <section id="download" class="mb-16 md:mb-24">
+            <div class="text-center">
+                <h2 class="font-display text-4xl text-white mb-3">Download The Game</h2>
+                <p class="max-w-2xl mx-auto text-white/70 mb-8">The full game will be launched in Phase 3. Get ready to embark on a magical adventure!</p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                    <!-- App Store Button -->
+                    <div class="text-center">
+                        <button disabled class="flex items-center bg-black text-white rounded-lg px-6 py-3 cursor-not-allowed opacity-50">
+                            <i class="fab fa-apple text-4xl mr-4"></i>
+                            <div class="text-left">
+                                <p class="text-xs">Download on the</p>
+                                <p class="text-2xl font-semibold">App Store</p>
+                            </div>
+                        </button>
+                        <p class="text-xs text-white/50 mt-2">Coming Soon</p>
+                    </div>
+                    <!-- Google Play Button -->
+                    <div class="text-center">
+                        <button disabled class="flex items-center bg-black text-white rounded-lg px-6 py-3 cursor-not-allowed opacity-50">
+                            <i class="fab fa-google-play text-3xl mr-4"></i>
+                            <div class="text-left">
+                                <p class="text-xs uppercase">Get it on</p>
+                                <p class="text-2xl font-semibold">Google Play</p>
+                            </div>
+                        </button>
+                        <p class="text-xs text-white/50 mt-2">Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Footer -->
+        <footer class="text-center border-t border-white/10 pt-12">
+            <h2 class="font-display text-3xl text-white mb-3">Join the Meowgic World</h2>
+            <div class="flex justify-center items-start space-x-8 text-2xl mb-8">
+                <a href="https://x.com/MeowgicStudio_?t=lOkq0WHXD67sQ1W3x9LSZw&s=09" target="_blank" rel="noopener noreferrer" class="text-[var(--accent-light)] hover:text-white transition-colors"><i class="fab fa-x-twitter"></i></a>
+                <div class="flex flex-col items-center cursor-not-allowed">
+                    <i class="fab fa-discord text-white/40"></i>
+                    <span class="text-[10px] text-white/50 mt-1">Coming Soon</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-center space-x-2 text-sm text-white/60 mt-8">
+                <span>Meowgic Studio building on</span>
+                <a href="https://www.apechain.com/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 font-bold text-white hover:text-gray-300 transition-colors">
+                    <span>APE CHAIN</span>
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Starry background generation
+            const starsContainer = document.getElementById('stars-container');
+            const starCount = 100; // Number of stars
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`; // 2-5 seconds
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                starsContainer.appendChild(star);
+            }
+
+            // Tokenomics Chart
+            const tokenomicsCtx = document.getElementById('tokenomicsChart').getContext('2d');
+            const chartTextColor = 'rgba(255, 255, 255, 0.9)';
+            
+            new Chart(tokenomicsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Ecosystem Rewards', 
+                        'Public Sale', 
+                        'Liquidity', 
+                        'Team', 
+                        'Meowgic Pass Holders', 
+                        'Magic Meow Holders'
+                    ],
+                    datasets: [{
+                        data: [60, 10, 10, 10, 5, 5],
+                        backgroundColor: ['#E0AAFF', '#C77DFF', '#9D4EDD', '#7B2CBF', '#5A189A', '#3C096C'],
+                        borderColor: 'var(--bg-light)',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#10002B',
+                            titleColor: '#E0AAFF',
+                            bodyColor: '#FFFFFF',
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
